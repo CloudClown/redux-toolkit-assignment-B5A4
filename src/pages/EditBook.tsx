@@ -1,12 +1,11 @@
-// src/pages/EditBook.tsx
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import BookForm from '@/components/BookForm';
 import { toast } from 'sonner';
 import type { IBook } from '@/interfaces/books.interface';
 import {  useGetBookByIdQuery, useUpdateBookMutation } from '@/api/booksApi';
 
-const EditBook: React.FC = () => {
+const EditBook = () => {
   // Use the correct param name
   const { bookId } = useParams<{ bookId: string }>();
   const navigate = useNavigate();

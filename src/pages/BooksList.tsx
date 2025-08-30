@@ -1,26 +1,28 @@
-// src/pages/BooksList.tsx
-import React from 'react';
 import { useGetBooksQuery, useDeleteBookMutation } from '@/api/booksApi';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import type { IBook } from '@/interfaces/books.interface';
 
-const BooksList: React.FC = () => {
+const BooksList = () => {
   const navigate = useNavigate();
-  const { data: books, isLoading, isError } = useGetBooksQuery();
+
+  // ✅ Provide default empty array to avoid runtime errors
+  const { data: books = [], isLoading, isError } = useGetBooksQuery();
   const [deleteBook] = useDeleteBookMutation();
 
+  // ✅ Delete book handler
   const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this book?')) return;
+    if (!confirm("Are you sure you want to delete this book?")) return;
     try {
       await deleteBook(id).unwrap();
-      toast.success('Book deleted successfully!');
+      toast.success("Book deleted successfully!");
     } catch {
-      toast.error('Failed to delete the book.');
+      toast.error("Failed to delete the book.");
     }
   };
 
+  // ✅ Handle loading & error states
   if (isLoading) return <p>Loading books...</p>;
   if (isError) return <p>Failed to load books.</p>;
 
@@ -28,7 +30,7 @@ const BooksList: React.FC = () => {
     <div className="p-8">
       <div className="flex justify-between mb-6">
         <h2 className="text-2xl font-bold">Books List</h2>
-        <Button onClick={() => navigate('/create-book')}>Add New Book</Button>
+        <Button onClick={() => navigate("/create-book")}>Add New Book</Button>
       </div>
 
       <div className="overflow-x-auto">
@@ -45,31 +47,41 @@ const BooksList: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {books?.map((book: IBook) => (
-              <tr key={book._id} className="text-center border-t border-gray-200">
-                <td className="px-4 py-2">{book.title}</td>
-                <td className="px-4 py-2">{book.author}</td>
-                <td className="px-4 py-2">{book.genre}</td>
-                <td className="px-4 py-2">{book.isbn}</td>
-                <td className="px-4 py-2">{book.copies}</td>
-                <td className="px-4 py-2">{book.available ? 'Yes' : 'No'}</td>
-                <td className="px-4 py-2 flex justify-center gap-2">
-                  <Button size="sm" onClick={() => navigate(`/edit-book/${book._id}`)}>
-                    Edit
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="destructive"
-                    onClick={() => handleDelete(book._id)}
-                  >
-                    Delete
-                  </Button>
-                  <Button size="sm" onClick={() => navigate(`/borrow/${book._id}`)}>
-                    Borrow
-                  </Button>
+            {books.length > 0 ? (
+              books.map((book: IBook) => (
+                <tr key={book._id} className="text-center border-t border-gray-200">
+                  <td className="px-4 py-2">{book.title}</td>
+                  <td className="px-4 py-2">{book.author}</td>
+                  <td className="px-4 py-2">{book.genre}</td>
+                  <td className="px-4 py-2">{book.isbn}</td>
+                  <td className="px-4 py-2">{book.copies}</td>
+                  <td className="px-4 py-2">{book.available ? "Yes" : "No"}</td>
+                  <td className="px-4 py-2">
+                    <div className="flex justify-center gap-2">
+                      <Button size="sm" onClick={() => navigate(`/edit-book/${book._id}`)}>
+                        Edit
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="destructive"
+                        onClick={() => handleDelete(book._id)}
+                      >
+                        Delete
+                      </Button>
+                      <Button size="sm" onClick={() => navigate(`/borrow/${book._id}`)}>
+                        Borrow
+                      </Button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={7} className="text-center py-4 text-gray-500">
+                  No books available.
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
@@ -78,3 +90,4 @@ const BooksList: React.FC = () => {
 };
 
 export default BooksList;
+
