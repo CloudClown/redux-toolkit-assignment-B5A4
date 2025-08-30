@@ -9,18 +9,18 @@ export const booksApi = createApi({
   tagTypes: ["Books"],
   endpoints: (builder) => ({
     getBooks: builder.query<IBook[], void>({
-      query: () => "/books",
+      query: () => "/",
       transformResponse: (response: { success: boolean; message: string; data: IBook[] }) => response.data,
       providesTags: ["Books"],
     }),
     getBookById: builder.query<IBook, string>({
-      query: (id) => `/books/${id}`,
+      query: (id) => `/${id}`,
       transformResponse: (response: { success: boolean; message: string; data: IBook }) => response.data,
       providesTags: ["Books"],
     }),
     createBook: builder.mutation<IBook, Partial<IBook>>({
       query: (body) => ({
-        url: "/books",
+        url: "/",
         method: "POST",
         body,
       }),
@@ -28,7 +28,7 @@ export const booksApi = createApi({
     }),
     updateBook: builder.mutation<IBook, { id: string; body: Partial<IBook> }>({
       query: ({ id, body }) => ({
-        url: `/books/${id}`,
+        url: `/${id}`,
         method: "PATCH",
         body,
       }),
@@ -36,7 +36,7 @@ export const booksApi = createApi({
     }),
     deleteBook: builder.mutation<{ success: boolean; data: null }, string>({
       query: (id) => ({
-        url: `/books/${id}`,
+        url: `/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Books"],
