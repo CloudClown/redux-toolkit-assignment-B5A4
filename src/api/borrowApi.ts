@@ -17,7 +17,7 @@ interface IBorrowSummaryItem {
 
 export const borrowApi = createApi({
   reducerPath: 'borrowApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://assignment-library-management-two.vercel.app/api' }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://assignment-library-management-two.vercel.app/api/borrow' }),
   tagTypes: ['Borrow', 'Books'],
   endpoints: (builder) => ({
     borrowBook: builder.mutation<IBorrow, IBorrowPayload>({
