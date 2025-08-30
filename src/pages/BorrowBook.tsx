@@ -63,41 +63,53 @@ const BorrowBook = () => {
 
   return (
     <div className="p-8 max-w-md mx-auto">
-      <h2 className="text-2xl font-bold mb-6">Borrow Book</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Quantity Field */}
-        <div>
-          <label className="block mb-1 font-medium">Quantity</label>
-          <input
-            type="number"
-            name="quantity"
-            min={1}
-            value={formData.quantity}
-            onChange={handleChange}
-            className="border border-gray-300 rounded-lg p-2 w-full"
-            required
-          />
-        </div>
+  <h2 className="text-3xl font-bold mb-8 text-gray-900">Borrow Book</h2>
 
-        {/* Due Date Field */}
-        <div>
-          <label className="block mb-1 font-medium">Due Date</label>
-          <input
-            type="date"
-            name="dueDate"
-            value={formData.dueDate}
-            onChange={handleChange}
-            className="border border-gray-300 rounded-lg p-2 w-full"
-            required
-          />
-        </div>
-
-        {/* Submit Button */}
-        <Button type="submit" disabled={isLoading} className="w-full">
-          {isLoading ? "Borrowing..." : "Borrow Book"}
-        </Button>
-      </form>
+  <form onSubmit={handleSubmit} className="space-y-6">
+    {/* Quantity Field */}
+    <div className="flex flex-col">
+      <label htmlFor="quantity" className="text-sm font-medium mb-2 text-gray-700">
+        Quantity
+      </label>
+      <input
+        id="quantity"
+        type="number"
+        name="quantity"
+        min={1}
+        value={formData.quantity}
+        onChange={handleChange}
+        className="border border-gray-400 rounded-md px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+        required
+      />
     </div>
+
+    {/* Due Date Field */}
+    <div className="flex flex-col">
+      <label htmlFor="dueDate" className="text-sm font-medium mb-2 text-gray-700">
+        Due Date
+      </label>
+      <input
+        id="dueDate"
+        type="date"
+        name="dueDate"
+        value={formData.dueDate}
+        onChange={handleChange}
+        className="border border-gray-400 rounded-md px-3 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+        required
+      />
+    </div>
+
+    {/* Submit Button */}
+    <Button
+      type="submit"
+      disabled={isLoading}
+      className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-md disabled:opacity-60 disabled:cursor-not-allowed"
+    >
+      {isLoading ? "Borrowing..." : "Borrow Book"}
+    </Button>
+  </form>
+</div>
+
   );
 };
 
